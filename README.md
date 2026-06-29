@@ -77,6 +77,18 @@ print(analyze("Describe 'my_data' và vẽ histogram của revenue"))
 
 ## 🔬 Model Comparison: Qwen2.5-3B vs 7B
 
+The system was evaluated through two primary test scenarios (Test Cases), along with several standalone tasks.  
+The results below are based on actual execution logs.
+
+## 📊 Test Case Performance Comparison
+
+| Test Scenario | Qwen2.5-3B | Qwen2.5-7B |
+|----------------|------------|------------|
+| **Case 1: Generate Mock Data & Plot Charts**<br><br>*The agent is required to generate sample data and then create visualizations from that data.* | ❌ **Failed**<br><br>*(Struggled to complete the end-to-end workflow of generating data → saving it → plotting the visualization.)* | ✅ **Succeeded**<br><br>*(Handled the complete end-to-end workflow smoothly, from data generation to chart visualization.)* |
+| **Case 2: Load Real Kaggle Data & Plot Charts**<br><br>*Read an existing CSV file from the Kaggle input directory and visualize the data.* | 🏆 **Performed significantly better**<br><br>*(Correctly identified file paths, invoked the appropriate tools, and accurately interpreted the task.)* | ⚠️ **Performed worse than 3B**<br><br>*(More likely to become distracted, invoke incorrect formats, or make mistakes when handling larger datasets.)* |
+
+...
+
 Both models were tested on the same multi-agent task set. Findings from actual run logs:
 
 | Behavior | Qwen2.5-3B | Qwen2.5-7B |
@@ -92,7 +104,24 @@ Both models were tested on the same multi-agent task set. Findings from actual r
 | `filter_data` with quoted strings | ❌ Fails (expr parse error) | Not tested |
 | Overall tool routing accuracy | ~65% | ~60% (more format errors offset capability gain) |
 
-**Verdict:** 7B is not strictly better for agentic tasks. Its larger context capacity causes it to generate more verbose and structurally invalid outputs, leading to more ReAct format violations. For this use case, **3B with tighter prompts is more predictable**.
+## Output
+- Case 1: Qwen2.5-3B (Failed)
+<img width="836" height="378" alt="image" src="https://github.com/user-attachments/assets/5a23f6cd-9b79-4d23-91fa-b483a48ab76e" />
+- Case 1: Qwen2.5-7B (Successful)
+<img width="797" height="481" alt="Screenshot 2026-06-29 114336" src="https://github.com/user-attachments/assets/66561955-3781-4815-8240-ed03331c006d" />
+- Case 2: Qwen2.5-3B (Successful)
+<img width="831" height="647" alt="Screenshot 2026-06-29 114211" src="https://github.com/user-attachments/assets/891b561d-d697-4b32-b4a5-b63330314055" />
+<img width="937" height="643" alt="Screenshot 2026-06-29 114022" src="https://github.com/user-attachments/assets/86fcda2c-6430-4fbc-a1a7-ebdf9d06102d" />
+- Case 2: Qwen2.5-7B (Successful)
+<img width="850" height="475" alt="Screenshot 2026-06-29 114343" src="https://github.com/user-attachments/assets/a3293ddc-df1c-4a1e-88d4-0fb6524a0e9a" />
+<img width="831" height="480" alt="Screenshot 2026-06-29 114348" src="https://github.com/user-attachments/assets/49b57f82-c8de-4394-aba1-3b33663d3a45" />
+
+
+**Verdict:** In the evaluated benchmark, Qwen2.5-3B demonstrated more consistent performance on real-world data analysis tasks (Case 2). It reliably followed the ReAct workflow, correctly invoked tools, and produced the expected visualizations with fewer execution errors. However, its limited multi-step reasoning capability prevented it from completing the end-to-end mock data generation workflow (Case 1).
+
+Qwen2.5-7B exhibited stronger reasoning ability in multi-step tasks, successfully completing the mock data generation and visualization pipeline. Nevertheless, in the Kaggle dataset workflow, it showed less stable agent behavior, including unnecessary intermediate reasoning, occasional format violations, and instances of Chinese language leakage, resulting in lower task completion reliability.
+
+Recommendation: Based on the evaluated workflows, Qwen2.5-3B is better suited for structured data analysis tasks using existing datasets, whereas Qwen2.5-7B is more appropriate for workflows requiring stronger multi-step reasoning and autonomous planning.
 
 ---
 
@@ -195,4 +224,4 @@ seaborn
 
 ## 🙏 Credits
 
-Original architecture inspired by a multi-agent data analysis system built with **GPT-4o-mini** and **Google ADK**. This repo adapts that design to run on open-source models at zero cost.
+Original architecture inspired by a multi-agent data analysis system built with **GPT-4o-mini** and **Google ADK**. This repo (https://github.com/MARKTECHPOST-AI-MEDIA-INC/AI-Agents-Projects-Tutorials) adapts that design to run on open-source models at zero cost.
