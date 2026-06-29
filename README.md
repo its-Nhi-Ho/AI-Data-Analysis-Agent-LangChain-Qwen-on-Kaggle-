@@ -224,4 +224,4 @@ seaborn
 
 ## 🙏 Credits
 
-Original architecture inspired by a multi-agent data analysis system built with **GPT-4o-mini** and **Google ADK**. This repo (https://github.com/MARKTECHPOST-AI-MEDIA-INC/AI-Agents-Projects-Tutorials) adapts that design to run on open-source models at zero cost.
+Original architecture (https://github.com/MARKTECHPOST-AI-MEDIA-INC/AI-Agents-Projects-Tutorials) inspired by a multi-agent data analysis system built with **GPT-4o-mini** and **Google ADK**. This repo  adapts that design to run on open-source models at zero cost.
